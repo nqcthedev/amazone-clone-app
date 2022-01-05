@@ -6,7 +6,10 @@ import Checkout from "./components/Pages/Checkout";
 import { Elements } from "@stripe/react-stripe-js";
 import Header from "./components/Layout/Header";
 import Login from "./components/Pages/Login";
+import Orders from "./components/Pages/Orders";
 import Payment from "./components/Pages/Payment";
+import ProductDetail from "./components/Pages/ProductDetail";
+import Success from "./components/Others/Success";
 import { auth } from "./firebase/firebase";
 import { currentUser } from "./store/user-slice";
 import { loadStripe } from "@stripe/stripe-js";
@@ -38,16 +41,25 @@ function App() {
           <AllProducts />
         </main>
       </Route>
-      <Route path="/login">
+      <Route exact path="/product-detail/:productId">
+        <ProductDetail />
+      </Route>
+      <Route exact path="/login">
         <Login />
       </Route>
-      <Route path="/checkout">
+      <Route exact path="/checkout">
         <Checkout />
       </Route>
-      <Route path="/payment">
+      <Route exact path="/orders">
+        <Orders />
+      </Route>
+      <Route exact path="/payment">
         <Elements stripe={promises}>
           <Payment />
         </Elements>
+      </Route>
+      <Route exact path="/success">
+        <Success />
       </Route>
     </Switch>
   );

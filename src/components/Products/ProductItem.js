@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import React from "react";
 import { StarIcon } from "@heroicons/react/outline";
 import { addItemToCart } from "../../store/cart-slice";
@@ -31,14 +32,18 @@ function ProductItem({ id, title, description, category, price, image }) {
   const [hasPrice] = useState(Math.random() < 0.5);
   return (
     <div className="relative flex flex-col m-5 bg-white z-30 p-10 rounded-md">
-      <p className="absolute top-2 right-2 text-xs italic text-gray-400">
+      <p className="absolute top-2 right-2 text-xs italic text-gray-400 border-2 border-yellow-200 rounded-md py-1 px-1">
         {category}
       </p>
-      <img
-        className="w-full h-200 object-contain text-center"
-        src={image}
-        alt="Images Product"
-      />
+      <div className="border-solid border-2 border-gray-200 rounded-xl py-2 px-2">
+        <Link to={`/product-detail/${id}`}>
+          <img
+            className="w-full h-200 object-contain text-center"
+            src={image}
+            alt="Images Product"
+          />
+        </Link>
+      </div>
       <h4 className="my-3 font-medium">{title}</h4>
       <div className="flex">
         {Array(rating)

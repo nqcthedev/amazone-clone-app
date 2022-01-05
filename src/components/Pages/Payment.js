@@ -1,7 +1,11 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Link, useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { selectedItem, selectedTotal } from "../../store/cart-slice";
+import {
+  selectedItem,
+  selectedPrice,
+  selectedTotal,
+} from "../../store/cart-slice";
 
 import CheckoutProduct from "../Products/CheckoutProduct";
 import Header from "../Layout/Header";
@@ -13,6 +17,7 @@ function Payment() {
   const user = useSelector(selectUser);
   const cartItems = useSelector(selectedItem);
   const total = useSelector(selectedTotal);
+  const totalPrice = useSelector(selectedPrice);
   const history = useHistory();
 
   const stripe = useStripe();
@@ -28,7 +33,6 @@ function Payment() {
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
-        url: `/payments/create?total=${total(cartItems)}`,
       });
 
       setClientSecret(response.data.clientSecret);
@@ -62,7 +66,7 @@ function Payment() {
       <Header />
 
       <h1 className=" text-center p-3 font-medium bg-gray-200 text-3xl border-b-2 border-gray-300">
-        Checkout (<Link to="/checkout">{cartItems?.length} items</Link>)
+        Checkout (<Link to="/checkout">{total} items</Link>)
       </h1>
       <div className="flex p-5 my-5 border-b-2 border-gray-300">
         <h3 className="text-xl font-medium">Delivery Address</h3>
@@ -83,6 +87,8 @@ function Payment() {
               id={item.id}
               title={item.title}
               rating={item.rating}
+              totalPrice={item.totalPrice}
+              quantity={item.quantity}
               price={item.price}
               description={item.description}
               image={item.image}
@@ -102,19 +108,22 @@ function Payment() {
               {cartItems.length > 0 && (
                 <>
                   <h2 className="whitespace-nowrap font-bold text-lg">
-                    Order Total:({cartItems.length})
-                    <span className="font-bold">${total}</span>
+                    Order Total:({total})
+                    <span className="font-bold">${totalPrice?.toFixed(2)}</span>
                   </h2>
                 </>
               )}
+
               <button
-                disabled={!user || disabled || succeeded || processing}
+                onClick={() => history.push("/orders")}
+                role="link"
+                disabled={!user}
                 className={`button mt-2 ${
-                  processing &&
+                  !user &&
                   "from-gray-300 to-gray-500 text-gray-300 cursor-not-allowed"
                 }`}
               >
-                {processing ? "Processing" : "Buy Now"}
+                {!user ? "Sign In" : "Buy Now"}
               </button>
             </div>
             {error && <div>{error}</div>}

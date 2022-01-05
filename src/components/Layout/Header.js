@@ -46,10 +46,12 @@ function Header() {
               </p>
             </div>
           </Link>
-          <div className="link">
-            <p>Return</p>
-            <p className="font-extrabold md:text-sm">& Order</p>
-          </div>
+          <Link to="/orders">
+            <div className="link">
+              <p>Return</p>
+              <p className="font-extrabold md:text-sm">& Order</p>
+            </div>
+          </Link>
           <HeaderCart />
         </div>
       </div>

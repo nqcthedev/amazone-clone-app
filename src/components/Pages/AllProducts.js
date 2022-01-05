@@ -4,26 +4,39 @@ import Products from "../Products/Products";
 import React from "react";
 
 function AllProducts() {
+  const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
+  const [httpError, setHttpError] = useState();
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch("https://fakestoreapi.com/products");
-      const responseData = await response.json();
-      const loadedProducts = [];
-      for (const key in responseData) {
-        loadedProducts.push({
-          id: key,
-          title: responseData[key].title,
-          description: responseData[key].description,
-          price: responseData[key].price,
-          category: responseData[key].category,
-          image: responseData[key].image,
-        });
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
       }
-      setProducts(loadedProducts);
+      const responseData = await response.json();
+      setProducts(responseData);
+      setIsLoading(false);
     };
-    fetchProducts();
+    fetchProducts().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
   }, []);
+
+  if (isLoading) {
+    return (
+      <section className="text-center">
+        <p className="font-extrabold">Is Loadingg....</p>
+      </section>
+    );
+  }
+  if (httpError) {
+    return (
+      <section className="text-center">
+        <p className="font-extrabold">Faild to fetch</p>
+      </section>
+    );
+  }
   return (
     <>
       <Products products={products} />

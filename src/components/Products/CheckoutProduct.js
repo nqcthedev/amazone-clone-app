@@ -9,9 +9,11 @@ function CheckoutProduct({
   id,
   title,
   price,
+  totalPrice,
   description,
   rating,
   category,
+  quantity,
   image,
   hasPrice,
 }) {
@@ -21,6 +23,7 @@ function CheckoutProduct({
       id,
       title,
       price,
+      totalPrice,
       description,
       rating,
       category,
@@ -31,7 +34,7 @@ function CheckoutProduct({
   };
 
   const removeItemHandler = () => {
-    dispatch(removeItemFromCart({ id }));
+    dispatch(removeItemFromCart(id));
   };
 
   return (
@@ -48,7 +51,7 @@ function CheckoutProduct({
             ))}
         </div>
         <p className="text-xs my-2 line-clamp-3">{description}</p>
-        <span className="font-medium">$ {price}</span>
+        <span className="font-medium">$ {totalPrice?.toFixed(2)}</span>
 
         {hasPrice && (
           <div className="flex items-center space-x-2 mt-2">
@@ -56,15 +59,23 @@ function CheckoutProduct({
             <p className="text-xs text-gray-500">Free Next-day Delivery</p>
           </div>
         )}
-      </div>
-      <div className="flex flex-col space-y-2">
-        <button className="button font-extrabold" onClick={addItemHandler}>
-          +
-        </button>
-        <button className="button font-extrabold" onClick={removeItemHandler}>
-          -
-        </button>
-        <button className="button font-extrabold">Orders</button>
+        <div className="flex mt-2 items-center space-x-2">
+          <button
+            className="button font-extrabold lg:text-xl"
+            onClick={addItemHandler}
+          >
+            +
+          </button>
+          <div className=" w-20 rounded-lg border-solid border-2 border-gray-400 text-center p-2">
+            <span className="font-bold">x{quantity}</span>
+          </div>
+          <button
+            className="button font-extrabold  lg:text-xl"
+            onClick={removeItemHandler}
+          >
+            -
+          </button>
+        </div>
       </div>
     </div>
   );

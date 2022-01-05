@@ -1,4 +1,8 @@
-import { selectedItem, selectedTotal } from "../../store/cart-slice";
+import {
+  selectedItem,
+  selectedPrice,
+  selectedTotal,
+} from "../../store/cart-slice";
 
 import CheckoutProduct from "../Products/CheckoutProduct";
 import Header from "../Layout/Header";
@@ -10,7 +14,8 @@ import { useSelector } from "react-redux";
 
 function Checkout() {
   const cartItems = useSelector(selectedItem);
-  const total = useSelector(selectedTotal);
+  const totalPrice = useSelector(selectedPrice);
+  const totalItems = useSelector(selectedTotal);
   const user = useSelector(selectUser);
   const history = useHistory();
 
@@ -41,6 +46,8 @@ function Checkout() {
                 title={item.title}
                 rating={item.rating}
                 price={item.price}
+                totalPrice={item.totalPrice}
+                quantity={item.quantity}
                 description={item.description}
                 image={item.image}
                 hasPrice={item.hasPrice}
@@ -53,8 +60,8 @@ function Checkout() {
           {cartItems.length > 0 && (
             <>
               <h2 className="whitespace-nowrap">
-                Subtotal({cartItems.length} items):
-                <span className="font-bold">${total}</span>
+                Subtotal({totalItems} items):
+                <span className="font-bold">${totalPrice?.toFixed(2)}</span>
               </h2>
 
               <button
