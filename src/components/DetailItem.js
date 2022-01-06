@@ -38,7 +38,7 @@ const DetailItem = ({
       <div className="flex max-w-screen-xl mx-auto mt-5 gap-7 items-center p-5">
         <div className="flex-1  md:col-span-2 lg:grid-cols-3 xl:grid-cols-4">
           <div className="text-center">
-            <img src={image} alt="image" className="w-96" />
+            <img src={image} alt="products" className="w-96" />
           </div>
         </div>
         <div className="flex-1 md:flex md:flex-col lg:grid-cols-3 xl:grid-cols-4 space-y-5">

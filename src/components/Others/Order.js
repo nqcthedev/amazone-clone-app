@@ -26,7 +26,7 @@ const Order = ({ id, totalPrice, image }) => {
         <div className="flex space-x-6 overflow-x-auto">
           <img
             src={image}
-            alt="image"
+            alt="products"
             className="h-20 object-contain sm:h-32"
           />
         </div>
